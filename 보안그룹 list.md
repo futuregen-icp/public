@@ -3,6 +3,7 @@
 **public 과 private 2가지 구성**
 
 1)보안 목록: private	(private subnet의 보안 목록) 
+
 **수신**
 |소스|IP프로토콜|소스포트 범위|대상 포트 범위|State Less|
 |:---|:--:|:--:|:--:|:--:|
