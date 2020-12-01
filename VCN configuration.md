@@ -3,7 +3,7 @@
 ```
 구성 정보
 
-|Host|OS|Instance Spec|비고
+|Host|OS|Instance Spec|비고|
 |::--:|:--:|:--:|
 |Bastion|Oracle Linux 7.9|E.x|
 |db01|Oracle Linux 7.9|E.x|
