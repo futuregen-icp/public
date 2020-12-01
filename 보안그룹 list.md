@@ -31,6 +31,7 @@
 |All ICN Services in Oracle Services Network|TCP|12500|30000-32767|-|아니요|
 |0.0.0.0/0|모든 프로토콜|-|-|-|아니요|
 
+------------------------------------------
 
 2)	보안 목록: public		(public subnet의 보안 목록)
 
