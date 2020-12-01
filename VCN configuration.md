@@ -1,14 +1,13 @@
 ## vcn 구성
-
 ```
 구성 정보
 
-|Host   |OS              |Instance Spec|
-
+|Host|OS|Instance Spec|비고|
+|:--:|:--:|:--:|:--:|
 |Bastion|Oracle Linux 7.9|E.x|
-|db01   |Oracle Linux 7.9|E.x|
-|db02   |Oracle Linux 7.9|E.x|
-|oke    |Oracle Linux 7.9|E.x|
+|db01|Oracle Linux 7.9|E.x|
+|db02|Oracle Linux 7.9|E.x|
+|oke|Oracle Linux 7.9|E.x|
 ```
 
 ### Gateway 구성순서
