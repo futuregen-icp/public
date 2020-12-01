@@ -26,3 +26,6 @@
 |All ICN Services in Oracle Services Network|ICMP|-|-|모두|아니요|
 |All ICN Services in Oracle Services Network|TCP|80|22|-|아니요|
 |All ICN Services in Oracle Services Network|TCP|443|80|-|아니요|
+|All ICN Services in Oracle Services Network|TCP|6443|443|-|아니요|
+|All ICN Services in Oracle Services Network|TCP|12500|30000-32767|-|아니요|
+|0.0.0.0/0|모든 프로토콜|-|-|-|아니요|
