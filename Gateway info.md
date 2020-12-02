@@ -23,7 +23,7 @@ private
 |All ICN Services In Oracle Services Network|서비스 게이트웨이|service_gateway|
 ------------------
 public
-|대상|유형|대상
+|대상|유형|대상|
 |0.0.0.0/0|인터넷 게이트웨이|internet_gateway_dev|
 
 
