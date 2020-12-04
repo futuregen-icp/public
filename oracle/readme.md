@@ -2,7 +2,7 @@
 
 **구성 순서**
 
- 1. ## vcn 구성 정보
+## 1. vcn 구성 정보
 ### 구성 정보
 
 |Host|OS|Instance Spec|
@@ -12,7 +12,7 @@
 |db02|Oracle Linux 7.9|E.x|
 |oke|Oracle Linux 7.9|E.x|
  
- 2. ## Gateway 구성 
+## 2. Gateway 구성 
 
  |순서|항목|역활|
 |:--:|:--:|:---|
@@ -31,7 +31,7 @@
 ### 보안 그룹 구성 정보
 ### [security group.md](https://github.com/futuregen-icp/public/blob/main/security%20group.md.md)
 
-3. ##  서브넷 구성 
+## 3. 서브넷 구성 
 
 |서브넷 이름|CIDR|보안그룹|
 |:--:|:--:|:--:|
@@ -40,7 +40,7 @@
 
 	위의 내용으로 구성
 
-4. ## 인스턴스 구성
+## 4. 인스턴스 구성
 - bastion instance 구성
  
  bastion instance 구성 시 공용키 를 다운 받아 관리 필요
@@ -70,7 +70,7 @@
 
 위의 파일을 다운 받아 참고하여 진행
 
-5. ## OKE cluster install
+## 5. OKE cluster install
 
 [OKE cluster](https://github.com/futuregen-icp/public/blob/main/oracle/OKE%20cluster.md)
 
