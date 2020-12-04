@@ -55,9 +55,13 @@
  
  - window putty 접속 방법
  1. putty gen 을 사용 하여 인증서를 생성
+ 
  2. Private key (ssh-key-2020-11-26.key) 를 사용하여 접속한 뒤 
+ 
  # vi $HOME/.ssh/authorized_keys 에 생성된 ppk 의 코드를 붙여넣습니다.
+ 
  3. 생성한 인증서로 putty 접속 시도합니다.
+ 
  ```
 
 - ocl 를 이용하기 위한 인증 
