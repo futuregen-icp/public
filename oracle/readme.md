@@ -70,7 +70,7 @@
 
 위의 파일을 다운 받아 참고하여 진행
 
-### OKE cluster install
+5. ## OKE cluster install
 
 [OKE cluster](https://github.com/futuregen-icp/public/blob/main/oracle/OKE%20cluster.md)
 
