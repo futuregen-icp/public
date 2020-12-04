@@ -5,8 +5,8 @@
  1. ## vcn 구성 정보
 ### 구성 정보
 
-|Host|OS|Instance Spec|비고|
-|:--:|:--:|:--:|:--:|
+|Host|OS|Instance Spec|
+|:--:|:--:|:--:|
 |Bastion|Oracle Linux 7.9|E.x|
 |db01|Oracle Linux 7.9|E.x|
 |db02|Oracle Linux 7.9|E.x|
