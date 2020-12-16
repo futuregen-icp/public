@@ -81,17 +81,17 @@ url
 ```
 [opc@bastion-instance ~]$ kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,
 Challenges --all-namespaces
-NAMESPACE  	NAME	 										 	READY  AGE
-			clusterissuer.cert-manager.io/letsencrypt-prod 		True  2d15h
+NAMESPACE  	NAME	 						   READY   AGE
+			clusterissuer.cert-manager.io/letsencrypt-prod 	    True   2d15h
 
-NAMESPACE 		 NAME 									READY  SECRET 		 AGE
-smartwork-dev  certificate.cert-manager.io/sm-dev-tls  	True  sm-dev-tls 	 2d15h
+NAMESPACE 		 NAME 				READY    SECRET 	    AGE
+smartwork-dev  certificate.cert-manager.io/sm-dev-tls  	True      sm-dev-tls 	   2d15h
 
-NAMESPACE 		 NAME 												 READY	  AGE
+NAMESPACE 		 NAME 						 READY	  AGE
 smartwork-dev  certificaterequest.cert-manager.io/sm-dev-tls-mldnc 	 True	  2d15h
-smartwork-dev  certificaterequest.cert-manager.io/sm-dev-tls-pzt8j   True	  2d15h
+smartwork-dev  certificaterequest.cert-manager.io/sm-dev-tls-pzt8j       True	  2d15h
 
-NAMESPACE  		 NAME													  STATE    AGE
+NAMESPACE  		 NAME						  STATE    AGE
 smartwork-dev  order.acme.cert-manager.io/sm-dev-tls-mldnc-1094753720	  valid   2d15h
 smartwork-dev  order.acme.cert-manager.io/sm-dev-tls-pzt8j-1094753720 	  valid   2d15h
 ```
