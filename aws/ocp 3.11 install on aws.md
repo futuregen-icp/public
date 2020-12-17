@@ -16,7 +16,7 @@
 |--|--|--|--|
 |master,bastion|t3a.xlarge|RHEL-7.7|O|
 |CPU Node|t3a.large|RHEL-7.7|X|
-|GPU Node|g4dn.xlarge|RHEL-7.7|X|
+|GPU Node|p2.xlarge|RHEL-7.7|X|
 
 #### 1-3 DNS 설정
 
