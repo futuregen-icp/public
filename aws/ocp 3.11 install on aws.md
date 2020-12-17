@@ -16,7 +16,7 @@
 |--|--|--|--|
 |master,bastion|t3a.xlarge|RHEL-7.7|O|
 |CPU Node|t3a.large|RHEL-7.7|X|
-|GPU Node|p2.xlarge|RHEL-7.7|X|
+|GPU Node|g4dn.xlarge|RHEL-7.7|X|
 
 #### 1-3 DNS 설정
 
@@ -28,7 +28,7 @@
 ### 2 OCP3.11 설치
 #### 2-1 Subscription 등록(전체 서버)
 ```
-subscription-manager register --username=qingsong1989 --password=Azwell12#$
+subscription-manager register --username=qxxxxxxxxxxx --password=xxxxxxxxxxxx
 subscription-manager refresh
 subscription-manager attach --pool=8a85f9997385090b0173b342862a50b8
 subscription-manager repos --enable="rhel-7-server-rpms"  --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.11-rpms" --enable="rhel-7-server-ansible-2.9-rpms"
