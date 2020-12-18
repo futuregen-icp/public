@@ -28,7 +28,7 @@
 ### 2 OCP3.11 설치
 #### 2-1 Subscription 등록(전체 서버)
 ```
-subscription-manager register --username=qxxxxxxxxxxx --password=xxxxxxxxxxxx
+subscription-manager register --username=qingsong1989 --password=Azwell12#$
 subscription-manager refresh
 subscription-manager attach --pool=8a85f9997385090b0173b342862a50b8
 subscription-manager repos --enable="rhel-7-server-rpms"  --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.11-rpms" --enable="rhel-7-server-ansible-2.9-rpms"
@@ -276,4 +276,294 @@ ansible-playbook -i hosts playbooks/prerequisites.yml
 ```
 cd /usr/share/ansible/openshift-ansible
 ansible-playbook -i hosts playbooks/deploy_cluster.yml
+```
+
+### 3 OCP3.11 ADD CPU Nodes
+#### 3-1 Subscription 등록(전체 서버)
+```
+subscription-manager register --username=qingsong1989 --password=Azwell12#$
+subscription-manager refresh
+subscription-manager attach --pool=8a85f9997385090b0173b342862a50b8
+subscription-manager repos --enable="rhel-7-server-rpms"  --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.11-rpms" --enable="rhel-7-server-ansible-2.9-rpms"
+```
+#### 3-2 Ensuring host access (master -> worker)
+- ssh key 생성
+```
+#login to master node
+ssh-keygen
+```
+- Distribute the key to all worker nodes
+```
+#마스트 노드에서 /root/.ssh/id_rsa.pub 키 복사
+cat /root/.ssh/id_rsa.pub
+
+#모든 노드에서 키 등록 (master, cpu, gpu)
+마스트 노드의 public key 복사한 내용을 각 노드에 추가
+vi authorized_keys
+...
+ctrl + v
+...
+```
+- ssh login test
+```
+[root@ip-10-0-0-130 .ssh]# ssh ip-10-0-0-72
+The authenticity of host 'ip-10-0-0-72 (10.0.0.72)' can't be established.
+ECDSA key fingerprint is SHA256:XPv09d7jkyE9JYRD2B+3gH2n2Eg2MDYz+XIuToProS4.
+ECDSA key fingerprint is MD5:bb:2b:94:18:c3:7a:fd:3a:cf:1c:97:7b:04:36:87:81.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ip-10-0-0-72,10.0.0.72' (ECDSA) to the list of known hosts.
+Last login: Wed Dec 16 09:38:38 2020
+[root@ip-10-0-0-72 ~]#
+```
+#### 3-3 set selinux (all nodes)
+```
+/etc/sysconfig/selinux
+...
+SELINUX=enforcing
+...
+```
+#### 3-4 Ansible Playbooks 수행 하여 노드 추가(on master node)
+- Edit your **_/etc/ansible/hosts_**
+```
+vi hosts
+###########################################################################
+### OpenShift Hosts
+###########################################################################
+[OSEv3:children]
+masters
+etcd
+nodes
+new_nodes # <- add
+
+[masters]
+ip-10-0-0-130.ap-northeast-2.compute.internal
+[etcd]
+ip-10-0-0-130.ap-northeast-2.compute.internal
+[nodes]
+ip-10-0-0-130.ap-northeast-2.compute.internal openshift_node_group_name='node-config-master'
+ip-10-0-0-72.ap-northeast-2.compute.internal openshift_node_group_name='node-config-compute'
+
+[new_nodes] # <- add
+ip-10-0-0-183.ap-northeast-2.compute.internal openshift_node_group_name='node-config-compute'
+```
+
+- Playbooks 수행
+```
+ansible-playbook -i hosts playbooks/openshift-node/scaleup.yml
+```
+
+### 4 OCP3.11 ADD GPU Nodes
+#### 4-1 Subscription 등록(전체 서버)
+```
+subscription-manager register --username=qingsong1989 --password=Azwell12#$
+subscription-manager refresh
+subscription-manager attach --pool=8a85f9997385090b0173b342862a50b8
+subscription-manager repos --enable="rhel-7-server-rpms"  --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.11-rpms" --enable="rhel-7-server-ansible-2.9-rpms"
+yum install pciutils wget
+```
+#### 4-2 Ensuring host access (master -> worker)
+- ssh key 생성
+```
+#login to master node
+ssh-keygen
+```
+- Distribute the key to all worker nodes
+```
+#마스트 노드에서 /root/.ssh/id_rsa.pub 키 복사
+cat /root/.ssh/id_rsa.pub
+
+#모든 노드에서 키 등록 (master, cpu, gpu)
+마스트 노드의 public key 복사한 내용을 각 노드에 추가
+vi authorized_keys
+...
+ctrl + v
+...
+```
+- ssh login test
+```
+[root@ip-10-0-0-130 .ssh]# ssh ip-10-0-0-72
+The authenticity of host 'ip-10-0-0-72 (10.0.0.72)' can't be established.
+ECDSA key fingerprint is SHA256:XPv09d7jkyE9JYRD2B+3gH2n2Eg2MDYz+XIuToProS4.
+ECDSA key fingerprint is MD5:bb:2b:94:18:c3:7a:fd:3a:cf:1c:97:7b:04:36:87:81.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ip-10-0-0-72,10.0.0.72' (ECDSA) to the list of known hosts.
+Last login: Wed Dec 16 09:38:38 2020
+[root@ip-10-0-0-72 ~]#
+```
+#### 4-3 set selinux (all nodes)
+```
+/etc/sysconfig/selinux
+...
+SELINUX=enforcing
+...
+```
+#### 4-4 nvidia drivers 설치 (기존 버전 동일 하게 설정)
+
+- 참고 문서 https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html#rhel7
+- enable repos for RHEL 7
+```
+yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+subscription-manager repos --enable="rhel-*-optional-rpms" --enable="rhel-*-extras-rpms"  --enable="rhel-ha-for-rhel-*-server-rpms"
+```
+- Setup the CUDA network repository
+```
+distribution=$(. /etc/os-release;echo $ID`rpm -E "%{?rhel}%{?fedora}"`)
+ARCH=$( /bin/arch )
+yum-config-manager --add-repo http://developer.download.nvidia.com/compute/cuda/repos/$distribution/${ARCH}/cuda-$distribution.repo
+```
+- install kernel-devel package
+```
+sudo yum install -y kernel-devel-$(uname -r) kernel-headers-$(uname -r)
+```
+- Update the repository cache and install the driver
+```
+yum clean expire-cache
+yum install -y nvidia-driver-latest-dkms # 버전에 맞게 설정
+modprobe -r nouveau
+nvidia-modprobe && nvidia-modprobe -u
+reboot
+```
+- 확인
+```
+[root@ip-10-0-0-183 ec2-user]# nvidia-smi --query-gpu=gpu_name --format=csv,noheader --id=0 | sed -e 's/ /-/g'
+Tesla-K80
+```
+
+#### 4-5 Ansible Playbooks 수행 하여 노드 추가(on master node)
+- Edit your **_/etc/ansible/hosts_**
+```
+vi hosts
+###########################################################################
+### OpenShift Hosts
+###########################################################################
+[OSEv3:children]
+masters
+etcd
+nodes
+new_nodes # <- add
+
+[masters]
+ip-10-0-0-130.ap-northeast-2.compute.internal
+[etcd]
+ip-10-0-0-130.ap-northeast-2.compute.internal
+[nodes]
+ip-10-0-0-130.ap-northeast-2.compute.internal openshift_node_group_name='node-config-master'
+ip-10-0-0-72.ap-northeast-2.compute.internal openshift_node_group_name='node-config-compute'
+
+[new_nodes] # <- add
+ip-10-0-0-183.ap-northeast-2.compute.internal openshift_node_group_name='node-config-compute'
+```
+
+- Playbooks 수행
+```
+ansible-playbook -i hosts playbooks/openshift-node/scaleup.yml
+```
+
+#### 4-6 Adding the nvidia-container-runtime-hook
+- 참고 문서
+
+repos 등록
+https://nvidia.github.io/nvidia-container-runtime
+container-runtime-hook 설치
+https://github.com/NVIDIA/nvidia-container-runtime
+
+```
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-container-runtime/$distribution/nvidia-container-runtime.repo | tee /etc/yum.repos.d/nvidia-container-runtime.repo
+
+
+yum install nvidia-container-runtime
+
+#oci-nvidia-hook.json 생성
+[root@ip-10-0-0-183 ec2-user]# cat /usr/share/containers/oci/hooks.d/oci-nvidia-hook.json
+{
+    "hasbindmounts": true,
+    "hook": "/usr/bin/nvidia-container-runtime-hook",
+    "stage": [ "prestart" ]
+}
+
+```
+
+#### 4-7 Adding the SELinux policy module
+- First install the SELinux policy module on all GPU worker nodes
+```
+wget https://raw.githubusercontent.com/zvonkok/origin-ci-gpu/master/selinux/nvidia-container.pp
+semodule -i nvidia-container.pp
+```
+- Check and restore the labels
+```
+nvidia-container-cli -k list | restorecon -v -f -
+restorecon -Rv /dev
+restorecon -Rv /var/lib/kubelet
+```
+
+#### 4-8 Verify SELinux and prestart hook functionality
+```
+[root@ip-10-0-0-183 ec2-user]# docker run --user 1000:1000 --security-opt=no-new-privileges --cap-drop=ALL --security-opt label=type:nvidia_container_t docker.io/mirrorgooglecontainers/cuda-vector-add:v0.1
+[Vector addition of 50000 elements]
+Copy input data from the host memory to the CUDA device
+CUDA kernel launch with 196 blocks of 256 threads
+Copy output data from the CUDA device to the host memory
+Test PASSED
+Done
+```
+
+#### 4.9 Deploy the NVIDIA Device Plugin Daemonset
+- label the node
+```
+oc label node ip-10-0-0-183.ap-northeast-2.compute.internal openshift.com/gpu-accelerator=true
+```
+- Deploy Daemonset
+```
+git clone https://github.com/redhat-performance/openshift-psap.git
+cd openshift-psap/blog/gpu/device-plugin/
+oc create -f nvidia-device-plugin.yml
+```
+#### 4.10 확인
+- Plugin pod 상태 확인
+```
+#gpu node에서만 Plugin pod 실행 됬는지 확인
+
+[root@ip-10-0-0-130 openshift-ansible]# kubectl get pods -o wide  --selector=name=nvidia-device-plugin-ds --all-namespaces
+NAMESPACE     NAME                                   READY     STATUS    RESTARTS   AGE       IP           NODE                                            NOMINATED NODE
+kube-system   nvidia-device-plugin-daemonset-gpgg7   1/1       Running   0          43m       10.130.0.2   ip-10-0-0-183.ap-northeast-2.compute.internal   <none>
+``` 
+
+- Plugin pod  log 확인
+```
+[root@ip-10-0-0-130 openshift-ansible]# oc logs nvidia-device-plugin-daemonset-gpgg7 -n kube-system
+2020/12/18 03:43:27 Loading NVML
+2020/12/18 03:43:27 Fetching devices.
+2020/12/18 03:43:27 Starting FS watcher.
+2020/12/18 03:43:27 Starting OS watcher.
+2020/12/18 03:43:27 Starting to serve on /var/lib/kubelet/device-plugins/nvidia.sock
+2020/12/18 03:43:27 Registered device plugin with Kubelet
+```
+- node capacity 확인
+```
+[root@ip-10-0-0-130 openshift-ansible]# oc describe node ip-10-0-0-183.ap-northeast-2.compute.internal | egrep 'Capacity:|Allocatable:|gpu'
+                    openshift.com/gpu-accelerator=true
+Capacity:
+ nvidia.com/gpu:  1
+Allocatable:
+ nvidia.com/gpu:  1
+  nvidia.com/gpu  0           0
+```
+- Deploy a pod that requires a GPU
+```
+cd openshift-psap/blog/gpu/device-plugin/
+oc new-project nvidia
+oc create -f cuda-vector-add.yaml
+
+[root@ip-10-0-0-130 openshift-ansible]# oc get pod -n nvidia
+NAME              READY     STATUS      RESTARTS   AGE
+cuda-vector-add   0/1       Completed   0          1h
+
+[root@ip-10-0-0-130 openshift-ansible]# oc logs cuda-vector-add  -n nvidia
+[Vector addition of 50000 elements]
+Copy input data from the host memory to the CUDA device
+CUDA kernel launch with 196 blocks of 256 threads
+Copy output data from the CUDA device to the host memory
+Test PASSED
+Done
 ```
