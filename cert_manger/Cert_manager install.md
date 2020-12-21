@@ -4,7 +4,7 @@
 
 ### Cert-manager install
 
-
+- helm 을 사용하여  install 진행
 ```
 # Helm v3+
 $ helm install \
