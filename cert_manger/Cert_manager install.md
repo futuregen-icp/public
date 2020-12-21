@@ -99,7 +99,9 @@ moimstone.com zone 생성
 sm-dev.moimstone.com recode 생성 (CNAME -> ingress 용 LB 이름 입력 f1813689-0bc5-48fa-972e-ef1373ab37fe)
 ```
 
-### 인증서 생성 (인증서 생성 오더 실패 대신 domain Solving Challenges 성공)
+### 인증서 생성
+
+- 인증서 생성 오더 실패 대신 domain Solving Challenges 성공
 ```
 apiVersion: cert-manager.io/v1
 kind: Certificate
