@@ -53,8 +53,8 @@ metadata:
  name: oci-profile
 type: Opaque
 stringData:
- tenancy: "ocid1.tenancy.oc1..aaaaaaaaeq63qh33yoqoiq4q6j7rscjfl25o6i3w4xlczb5tmuejcmhln6vq"
- user: "ocid1.user.oc1..aaaaaaaa3ffwwcpzn2uar4undtexgp5qi3q6xelxthaas5l2agafj457sh2a"
+ tenancy: "ocid1.tenancy.oc1..aaaaaaaaeq..........................."
+ user: "ocid1.user.oc1....................................................a"
  region: "ap-seoul-1"
  fingerprint: "a0:ba:ad:84:73:59:f9:76:fb:77:54:3d:21:75:7c:47"
  privateKey: |
@@ -75,7 +75,7 @@ metadata:
 spec:
 	acme:
 	  server: https://acme-staging-v02.api.letsencrypt.org/directory
-	  email: luoqs1989@naver.com
+	  email: example@naver.com
 	  privateKeySecretRef:
 	   name: letsencrypt-prod
 	  solvers:
@@ -86,7 +86,7 @@ spec:
 	            config:
 	  	  	      ociProfileSecretName: oci-profile
 				    compartmentOCID: 
-ocid1.tenancy.oc1..aaaaaaaaeq63qh33yoqoiq4q6j7rscjfl25o6i3w4xlczb5tmuejcmhln6vq
+ocid1.tenancy.oc1..,,,,............................................q
 ```
 ### Set up DNS zones on oci
 
