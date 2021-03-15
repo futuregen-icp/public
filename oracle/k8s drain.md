@@ -23,7 +23,7 @@ target : 10.1.20.35    drain: 10.1.20.45
 ### 3.  node check
 ```
 # kubectl get nodes
-AME            STATUS     					 ROLES    AGE      VERSION
+AME            STATUS                        ROLES    AGE      VERSION
 10.1.20.35     Ready,SchedulingDisabled      node     4d3h     v1.18.10
 10.1.20.45     Ready                         node     4d3h     v1.18.10
 10.1.40.56     Ready.SchedulingDisabled      node     4d3h     v1.18.10
