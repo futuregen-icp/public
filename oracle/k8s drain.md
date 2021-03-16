@@ -11,7 +11,7 @@ AME            STATUS     ROLES    AGE      VERSION
 10.1.40.56     Ready      node     4d3h     v1.18.10
 10.1.40.76     Ready      node     4d3h     v1.18.10
 ```
-### 2.  stop the nodes
+### 2.  SchedulingDisabled the nodes
 ```
 # kubectl cordon 10.1.20.35
 # kubectl cordon 10.1.40.56
